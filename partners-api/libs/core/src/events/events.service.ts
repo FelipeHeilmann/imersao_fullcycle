@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma, SpotStatus, TicketStatus } from '@prisma/client';
-import { ResertveSpotDto } from 'src/spots/dto/reserve-spot.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { ReserveSpotDto } from './dto/reserve-spot.dto';
 
 @Injectable()
 export class EventsService {
@@ -46,7 +46,7 @@ export class EventsService {
     });
   }
 
-  async reserveSpot(reserveSpotDto: ResertveSpotDto & { eventId: string }) {
+  async reserveSpot(reserveSpotDto: ReserveSpotDto & { eventId: string }) {
     const spots = await this.prismaService.spot.findMany({
       where: {
         eventId: reserveSpotDto.eventId,
