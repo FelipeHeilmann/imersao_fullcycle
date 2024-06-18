@@ -16,37 +16,43 @@ export class SpotsController {
   constructor(private readonly spotsService: SpotsService) {}
 
   @Post()
-  create(
+  async create(
     @Body() createSpotDto: CreateSpotDto,
     @Param('eventId') eventId: string,
   ) {
-    return this.spotsService.create({
+    return await this.spotsService.create({
       ...createSpotDto,
       eventId,
     });
   }
 
   @Get()
-  findAll(@Param('eventId') eventId: string) {
-    return this.spotsService.findAll(eventId);
+  async findAll(@Param('eventId') eventId: string) {
+    return await this.spotsService.findAll(eventId);
   }
 
   @Get(':spotId')
-  findOne(@Param('spotId') spotId: string, @Param('eventId') eventId: string) {
-    return this.spotsService.findOne(eventId, spotId);
+  async findOne(
+    @Param('spotId') spotId: string,
+    @Param('eventId') eventId: string,
+  ) {
+    return await this.spotsService.findOne(eventId, spotId);
   }
 
   @Patch(':eventId')
-  update(
+  async update(
     @Param('spotId') spotId: string,
     @Param('eventId') eventId: string,
     @Body() updateSpotDto: UpdateSpotDto,
   ) {
-    return this.spotsService.update(eventId, spotId, updateSpotDto);
+    return await this.spotsService.update(eventId, spotId, updateSpotDto);
   }
 
   @Delete(':spotId')
-  remove(@Param('spotId') spotId: string, @Param('eventId') eventId: string) {
-    return this.spotsService.remove(eventId, spotId);
+  async remove(
+    @Param('spotId') spotId: string,
+    @Param('eventId') eventId: string,
+  ) {
+    return await this.spotsService.remove(eventId, spotId);
   }
 }

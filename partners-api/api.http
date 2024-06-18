@@ -41,6 +41,18 @@ POST http://localhost:3000/events/{{ eventId }}/spots
 Content-Type: application/json
 
 {
-    "name": "A1"
+    "name": "A4"
 }
+
+###
+POST http://localhost:3000/events/{{ eventId }}/reserve
+Content-Type: application/json
+
+{
+    "spots": ["A1", "A2", "A3","A4"],
+    "email": "felipeheilmann@gmail.com",
+    "ticketKind": "half"
+}
+
+
 

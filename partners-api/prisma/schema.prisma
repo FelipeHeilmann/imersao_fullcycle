@@ -21,22 +21,62 @@ model Event {
   date        DateTime
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
-  Spot        Spot[]
+  spot        Spot[]
 
   @@map("events")
 }
 
 model Spot {
-  id        String     @id @default(cuid())
-  name      String
-  eventId   String     @map("event_id")
-  status    SpotStatus
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
-  event     Event      @relation(fields: [eventId], references: [id])
+  id                 String               @id @default(cuid())
+  name               String
+  eventId            String               @map("event_id")
+  status             SpotStatus
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+  event              Event                @relation(fields: [eventId], references: [id])
+  reservationHistory ReservationHistory[]
+  ticket             Ticket?
+
+  @@map("spots")
+}
+
+model Ticket {
+  id         String     @id @default(cuid())
+  email      String
+  ticketKind TicketKind @map("ticket_kind")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  spotId     String
+  spot       Spot       @relation(fields: [spotId], references: [id])
+
+  @@unique([spotId])
+  @@map("tickets")
+}
+
+model ReservationHistory {
+  id         String       @id @default(cuid())
+  email      String
+  status     TicketStatus
+  ticketKind TicketKind   @map("ticket_kind")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+  spotId     String
+  spot       Spot         @relation(fields: [spotId], references: [id])
+
+  @@map("reservation_history")
 }
 
 enum SpotStatus {
   available
   reserved
+}
+
+enum TicketKind {
+  full
+  half
+}
+
+enum TicketStatus {
+  reserved
+  canceled
 }
