@@ -12,4 +12,5 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=nest 
+    volumes:
+      - ./.docker/postgres:/docker-entrypoint-initdb.d
