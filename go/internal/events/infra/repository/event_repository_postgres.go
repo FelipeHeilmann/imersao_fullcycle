@@ -51,7 +51,7 @@ func (repository *postgresEventRepository) List() ([]domain.Event, error) {
 			return nil, err
 		}
 
-		if !eventId.Valid || !eventName.Valid || !eventLocation.Valid || !eventOrganization.Valid || !eventRating.Valid || !eventDate.Valid || !eventImageURL.Valid || !eventPrice.Valid || !partnerID.Valid {
+		if !eventId.Valid || !eventName.Valid || !eventLocation.Valid || !eventOrganization.Valid || !eventRating.Valid || !eventDate.Valid || !eventImageUrl.Valid || !eventPrice.Valid || !partnerId.Valid {
 			continue
 		}
 
@@ -140,7 +140,7 @@ func (respository *postgresEventRepository) FindById(eventId string) (*domain.Ev
 		var eventDate sql.NullString
 		var eventCapacity int
 		var eventPrice, ticketPrice sql.NullFloat64
-		var partnerID sql.NullInt32
+		var partnerId sql.NullInt32
 
 		err := rows.Scan(
 			&eventIdStr, &eventName, &eventLocation, &eventOrganization, &eventRating, &eventDate, &eventImageUrl, &eventCapacity, &eventPrice, &partnerId,
@@ -154,7 +154,7 @@ func (respository *postgresEventRepository) FindById(eventId string) (*domain.Ev
 			return nil, err
 		}
 
-		if !eventIdStr.Valid || !eventName.Valid || !eventLocation.Valid || !eventOrganization.Valid || !eventRating.Valid || !eventDate.Valid || !eventImageUrl.Valid || !eventPrice.Valid || !partnerID.Valid {
+		if !eventIdStr.Valid || !eventName.Valid || !eventLocation.Valid || !eventOrganization.Valid || !eventRating.Valid || !eventDate.Valid || !eventImageUrl.Valid || !eventPrice.Valid || !partnerId.Valid {
 			continue
 		}
 
@@ -173,7 +173,7 @@ func (respository *postgresEventRepository) FindById(eventId string) (*domain.Ev
 				ImageUrl:     eventImageUrl.String,
 				Capacity:     eventCapacity,
 				Price:        eventPrice.Float64,
-				PartnerId:    int(partnerID.Int32),
+				PartnerId:    int(partnerId.Int32),
 				Spots:        []domain.Spot{},
 				Tickets:      []domain.Ticket{},
 			}
