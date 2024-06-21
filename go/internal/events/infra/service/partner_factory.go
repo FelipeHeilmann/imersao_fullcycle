@@ -12,7 +12,7 @@ type DefaultParterFactory struct {
 	partnerBaseUrls map[int]string
 }
 
-func newPartnerFactory(parterBaseURls map[int]string) PartnerFactory {
+func NewPartnerFactory(parterBaseURls map[int]string) PartnerFactory {
 	return &DefaultParterFactory{partnerBaseUrls: parterBaseURls}
 }
 
