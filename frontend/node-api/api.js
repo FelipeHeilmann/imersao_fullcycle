@@ -40,20 +40,20 @@ app.get("/events/:eventId/spots", async (req, res) => {
 })
 
 app.post("/checkout", async (req, res) => {
-  const { eventId, card_hash, ticket_kind, spots: spotsName, email } = req.body
-  console.log(req.body)
+  const { eventId, cardHash, ticketKind, spots: spotsName, email } = req.body
   const event = events.find((event) => event.id == eventId)
+  console.log(event)
   if (!event) {
     return res.status(404).json({
       message: "Event not found",
     })
   }
-  if (!card_hash) {
+  if (!cardHash) {
     return res.status(400).json({
       message: "Card hash is required",
     })
   }
-  if (!ticket_kind) {
+  if (!ticketKind) {
     return res.status(400).json({
       message: "Ticket kind is required",
     })
