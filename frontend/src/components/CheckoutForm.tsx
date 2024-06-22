@@ -17,7 +17,7 @@ export function CheckoutForm(props: PropsWithChildren<CheckoutFormProps>) {
 
   const [state, formAction] = useFormState(checkoutAction, {
     error: null as string | null,
-  });
+  })
 
   return (
     <form
@@ -31,7 +31,6 @@ export function CheckoutForm(props: PropsWithChildren<CheckoutFormProps>) {
         formAction({
           cardHash: card_hash,
           email: formData.get("email") as string,
-
         })
       }}
       className={props.className}

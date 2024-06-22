@@ -1,7 +1,6 @@
 "use server"
 
 import axios from "axios"
-import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
@@ -34,22 +33,35 @@ export async function checkoutAction(prevState: any, {
     const eventId = cookieStore.get("eventId")?.value
     const spots = JSON.parse(cookieStore.get("spots")?.value || "[]")
     const ticketKind = cookieStore.get("ticketKind")?.value || "full"
-  
+    let toRedirect: boolean = true
+    
     try {
-        await axios.post("http://localhost:8080/checkout", {
+        await axios.post(
+          'http://localhost:8080/checkout',
+          {
             eventId: eventId,
             cardHash: cardHash,
             ticketKind: ticketKind,
-            spots,
-            email,
-        })
-
-        revalidateTag(`events/${eventId}`)
-        redirect(`/checkout/${eventId}/success`)
-
-    }catch(e) {
-        return { error: "Erro ao realizar a compra" }
-    }   
+            spots: spots,
+            email: email,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': process.env.GOLANG_API_TOKEN as string,
+            },
+          }
+        )
+        toRedirect = true
+    } catch (error) {
+        toRedirect = false
+        return { error: 'Erro ao realizar a compra' };
+    }
+    finally {
+        if(toRedirect) {
+            redirect(`/checkout/${eventId}/success`)
+        }
+    }
 }
 
 export async function selectTicketTypeAction(ticketKind: "full" | "half") {
